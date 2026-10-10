@@ -7,10 +7,8 @@
 	type CopyState = { kind: 'success' | 'error'; message: string };
 
 	let query = $state('');
-	let searchInput: HTMLInputElement;
+	let searchInput = $state<HTMLInputElement>();
 	let copyStates = $state<Record<string, CopyState>>({});
-	const orderedScripts = groupScripts(scripts).flatMap((group) => group.scripts);
-	const featured = orderedScripts[0];
 	const visibleScripts = $derived(filterScripts(scripts, query));
 	const visibleGroups = $derived(groupScripts(visibleScripts));
 
@@ -67,7 +65,6 @@
 			<span class="site-context">/ public scripts</span>
 		</a>
 		<nav aria-label="Primary">
-			<a href="#catalogue">Catalogue</a>
 			<a href="https://iktrnch.dev">iktrnch.dev</a>
 		</nav>
 	</header>
@@ -77,77 +74,41 @@
 			<h1 id="page-title">Small scripts,<br /><span>ready to inspect.</span></h1>
 			<div class="intro-copy">
 				<p>
-					Copy-ready utilities with their documentation, platform support, risk, and exact source
-					kept in view before anything runs.
+					Copy-ready utilities with their platform support, risk, documentation, and exact source in
+					view.
 				</p>
 				<p class="security-note">
-					Remote scripts execute code on your machine. Review the documentation and raw source
-					before running a command.
+					Remote scripts execute code. Review the source before running a command.
 				</p>
 			</div>
 		</section>
 
-		{#if featured}
-			<section class="runway" aria-labelledby="featured-title">
-				<div class="runway-heading">
-					<h2 id="featured-title">{featured.name}</h2>
-					<p>
-						{featured.language} <span aria-hidden="true">·</span>
-						<span class:system-risk={featured.risk === 'system-changes'}>
-							{riskLabels[featured.risk]}
-						</span>
-					</p>
-				</div>
-				<div class="command-row">
-					<code><span aria-hidden="true">$</span>{scriptCommand(featured)}</code>
-					<button type="button" onclick={() => copyCommand(featured)}>
-						<span
-							class:error-state={copyStates[featured.slug]?.kind === 'error'}
-							aria-live="polite"
-						>
-							{copyStates[featured.slug]?.message ?? 'Copy command'}
-						</span>
-					</button>
-				</div>
-				<div class="runway-footer">
-					<p>{featured.description}</p>
-					<div>
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a href={documentationHref(featured)}>Documentation</a>
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a href={asset(featured.downloadUrl.slice(1) as Parameters<typeof asset>[0])}>
-							Raw source
-						</a>
-					</div>
-				</div>
-			</section>
-		{/if}
-
 		<section class="catalogue" id="catalogue" aria-labelledby="catalogue-title">
-			<div class="search-row" role="search">
-				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-					<circle cx="11" cy="11" r="7" />
-					<path d="m16.2 16.2 4 4" />
-				</svg>
-				<label class="visually-hidden" for="script-search">Search scripts</label>
-				<input
-					bind:this={searchInput}
-					bind:value={query}
-					id="script-search"
-					type="search"
-					placeholder="Search by name, task, category, or platform…"
-					autocomplete="off"
-				/>
-				{#if query}
-					<button class="clear-search" type="button" onclick={() => (query = '')}>Clear</button>
-				{:else}
-					<span class="shortcut" aria-hidden="true">/</span>
-				{/if}
-			</div>
+			{#if scripts.length > 0}
+				<div class="search-row" role="search">
+					<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+						<circle cx="11" cy="11" r="7" />
+						<path d="m16.2 16.2 4 4" />
+					</svg>
+					<label class="visually-hidden" for="script-search">Search scripts</label>
+					<input
+						bind:this={searchInput}
+						bind:value={query}
+						id="script-search"
+						type="search"
+						placeholder="Search scripts…"
+						autocomplete="off"
+					/>
+					{#if query}
+						<button class="clear-search" type="button" onclick={() => (query = '')}> Clear </button>
+					{:else}
+						<span class="shortcut" aria-hidden="true">/</span>
+					{/if}
+				</div>
+			{/if}
 
 			<div class="catalogue-heading">
 				<h2 id="catalogue-title">Script ledger</h2>
-				<p>Grouped by purpose. Every source stays one step away.</p>
 				<p class="result-count" aria-live="polite">
 					{visibleScripts.length}
 					{visibleScripts.length === 1 ? 'script' : 'scripts'}
@@ -156,8 +117,8 @@
 
 			{#if scripts.length === 0}
 				<div class="empty-state">
-					<h3>The ledger is being prepared.</h3>
-					<p>Published scripts will appear here automatically from the generated registry.</p>
+					<h3>No scripts published yet.</h3>
+					<p>New scripts appear here automatically when they are added to the registry.</p>
 				</div>
 			{:else if visibleGroups.length === 0}
 				<div class="empty-state">
@@ -178,7 +139,6 @@
 								<div class="entry-summary">
 									<div class="entry-meta">
 										<span>{script.language}</span>
-										<span>{script.category}</span>
 										<span>{script.platforms.join(' · ')}</span>
 										<span class:system-risk={script.risk === 'system-changes'}>
 											{riskLabels[script.risk]}
@@ -216,11 +176,6 @@
 			{/if}
 		</section>
 	</main>
-
-	<footer>
-		<p>Static artifacts, generated documentation, no runtime server.</p>
-		<a href="https://iktrnch.dev">Made by Illia Katerynych</a>
-	</footer>
 </div>
 
 <style>
@@ -252,11 +207,9 @@
 	.site-context,
 	.site-header nav,
 	.entry-meta,
-	.runway-heading p,
 	.result-count,
 	.shortcut,
-	.category-heading,
-	footer {
+	.category-heading {
 		font-family: 'JetBrains Mono', ui-monospace, monospace;
 		font-size: 0.75rem;
 		line-height: 1.4;
@@ -274,16 +227,12 @@
 	}
 
 	.site-header nav a,
-	.entry-summary nav a,
-	.runway-footer a,
-	footer a {
+	.entry-summary nav a {
 		color: var(--subtext-1);
 		text-underline-offset: 0.25em;
 	}
 
-	.entry-summary nav a,
-	.runway-footer a,
-	footer a {
+	.entry-summary nav a {
 		display: inline-flex;
 		min-height: 2.75rem;
 		align-items: center;
@@ -297,9 +246,7 @@
 	}
 
 	.site-header a:hover,
-	.entry-summary nav a:hover,
-	.runway-footer a:hover,
-	footer a:hover {
+	.entry-summary nav a:hover {
 		color: var(--primary-mauve);
 	}
 
@@ -347,39 +294,12 @@
 		line-height: 1.55;
 	}
 
-	.runway {
-		border-block: 1px solid var(--surface-1);
-		padding: 1.15rem 0 1.25rem;
-	}
-
-	.runway-heading,
-	.runway-footer,
 	.catalogue-heading,
 	.category-heading {
 		display: flex;
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 1.5rem;
-	}
-
-	.runway-heading {
-		margin-bottom: 0.75rem;
-	}
-
-	.runway-heading h2 {
-		margin: 0;
-		font-size: 1rem;
-		font-weight: 600;
-		line-height: 1.4;
-	}
-
-	.runway-heading p,
-	.runway-footer p {
-		margin: 0;
-	}
-
-	.runway-heading p {
-		color: var(--overlay-1);
 	}
 
 	.system-risk {
@@ -438,13 +358,6 @@
 		font-size: 0.75rem;
 	}
 
-	.runway-footer {
-		margin-top: 0.75rem;
-		color: var(--overlay-1);
-		font-size: 1rem;
-	}
-
-	.runway-footer div,
 	.entry-summary nav {
 		display: flex;
 		gap: 1.25rem;
@@ -452,7 +365,7 @@
 	}
 
 	.catalogue {
-		padding-top: 2rem;
+		padding-top: 0;
 		scroll-margin-top: 1rem;
 	}
 
@@ -526,15 +439,8 @@
 		line-height: 1.1;
 	}
 
-	.catalogue-heading > p:not(.result-count) {
-		flex: 1;
-		margin: 0;
-		color: var(--overlay-1);
-		font-size: 1rem;
-	}
-
 	.result-count {
-		margin: 0;
+		margin: 0 0 0 auto;
 		color: var(--primary-mauve);
 		white-space: nowrap;
 	}
@@ -620,20 +526,6 @@
 		line-height: 1.65;
 	}
 
-	footer {
-		display: flex;
-		justify-content: space-between;
-		gap: 2rem;
-		margin-top: clamp(5rem, 10vw, 8rem);
-		border-top: 1px solid var(--surface-1);
-		padding-top: 1.25rem;
-		color: var(--overlay-1);
-	}
-
-	footer p {
-		margin: 0;
-	}
-
 	.visually-hidden {
 		position: absolute;
 		width: 1px;
@@ -682,24 +574,6 @@
 			border-left: 0;
 		}
 
-		.runway-heading,
-		.runway-footer,
-		.catalogue-heading,
-		footer {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 0.75rem;
-		}
-
-		.runway-footer div {
-			width: 100%;
-			justify-content: space-between;
-		}
-
-		.catalogue-heading > p:not(.result-count) {
-			order: 3;
-		}
-
 		.entry-summary {
 			grid-template-columns: 1fr;
 			gap: 1rem;
@@ -722,17 +596,6 @@
 	}
 
 	@media (max-width: 480px) {
-		.site-header nav a:first-child {
-			display: none;
-		}
-
-		.runway-heading {
-			align-items: flex-start;
-			flex-direction: column;
-			gap: 0.35rem;
-		}
-
-		.runway-footer div,
 		.entry-summary nav {
 			flex-wrap: wrap;
 		}

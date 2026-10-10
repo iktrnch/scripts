@@ -217,7 +217,7 @@ Articles retain the identity rail, then divide the reading area into a long-form
 
 Script documentation uses a centred frame of up to `68rem`, with the title and metadata ledger spanning the frame while authored documentation stays within a `70ch` reading measure. The ledger presents platform, risk, and category in three columns beside the raw-script action; at `760px` it becomes a one-column flow and the metadata settles into two columns, with category taking the full final row.
 
-The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves into a featured command runway and a searchable, grouped ledger. Catalogue entries use an `11rem` metadata column, a flexible summary, direct documentation/source links, and an indented command row; at `800px` all of these become one direct column and command actions stack below their code.
+The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves directly into the searchable, grouped ledger. Catalogue entries use an `11rem` metadata column, a flexible summary, direct documentation/source links, and an indented command row; at `800px` all of these become one direct column and command actions stack below their code. Search is absent when the registry is empty because it cannot perform a useful action.
 
 At `900px`, the layout becomes one column, the profile rail turns into a compact identity header, and chronology metadata moves above each entry. At `620px`, the frame narrows to `100% - 2.25rem`, actions stack, content pairs collapse, and the three operating principles remain terse enough to stay side by side. Navigation, archive rows, and inline table-of-contents links preserve a `44px` compact-screen touch target.
 
@@ -276,7 +276,7 @@ The article header pairs a direct return link with a compact display title, mono
 
 Script documentation opens with a compact mono breadcrumb, a wide title and description, then a metadata ledger bounded by Surface 1 rules. Platform, risk, and category use `0.75rem` mono labels and values; the unchanged raw artifact remains a direct Mauve text action beside them. A `system-changes` risk uses Status Yellow, while lower-risk values remain Text. The ledger collapses into the reading flow on compact screens rather than becoming a card or horizontal scroller.
 
-### Command Copy Runway
+### Command Copy Row
 
 A runnable command is presented as inspectable evidence, not a decorative terminal. The row uses a Crust code field, a one-pixel Surface 1 border, the standard `0.25rem` content radius, and readable `0.75rem` mono text. The trailing Mauve action owns a fixed `13rem` width on wide screens so “Copy command”, success, and failure feedback resolve inline without shifting the ledger; hover moves to Focus Pink. Long commands scroll horizontally inside the code field. At `800px` the action stacks below the command with a `3rem` minimum height, and reduced-motion mode removes its pressed translation.
 
