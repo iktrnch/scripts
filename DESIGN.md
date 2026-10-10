@@ -5,7 +5,7 @@ colors:
   primary-mauve: "#cba6f7"
   primary-mauve-soft: "#b99bea"
   focus-pink: "#f5c2e7"
-  draft-yellow: "#f9e2af"
+  status-yellow: "#f9e2af"
   crust: "#11111b"
   mantle: "#181825"
   base: "#1e1e2e"
@@ -97,8 +97,12 @@ components:
     padding: "1.5rem 0 1.4rem"
   archive-entry-draft:
     backgroundColor: "transparent"
-    textColor: "{colors.draft-yellow}"
+    textColor: "{colors.status-yellow}"
     typography: "{typography.title}"
+  script-risk-system:
+    backgroundColor: "transparent"
+    textColor: "{colors.status-yellow}"
+    typography: "{typography.metadata}"
   article-inline-code:
     backgroundColor: "{colors.surface-0}"
     textColor: "{colors.focus-pink}"
@@ -139,7 +143,7 @@ The palette is a low-chroma blue-violet field with a single lucid Mauve voice an
 
 ### Tertiary
 
-- **Draft Yellow** (`draft-yellow`): a local-development-only diagnostic for draft titles in the archive and article header; it never appears in production content.
+- **Status Yellow** (`status-yellow`): marks exceptional state without competing with Mauve. It identifies local-development draft titles and production script metadata whose risk is `system-changes`.
 
 ### Neutral
 
@@ -153,7 +157,7 @@ The palette is a low-chroma blue-violet field with a single lucid Mauve voice an
 
 ### Named Rules
 
-**The One Signal Rule.** Mauve is the only recurring public chromatic signal; use it for direction, emphasis, and active attention rather than decoration. Draft Yellow is the deliberate local-development-only exception.
+**The One Signal Rule.** Mauve is the only recurring public chromatic signal; use it for direction, emphasis, and active attention rather than decoration. Status Yellow appears only when state must be unmistakable: unpublished local content or a script that changes the system.
 
 **The Continuous Field Rule.** The Base field remains visually continuous; section structure comes from space and rules, not alternating background slabs.
 
@@ -189,6 +193,8 @@ The primary frame is centred at a maximum width of `80rem` (1280px), with a narr
 Sections are unboxed with deliberately varied rhythm. The home opening has the largest pause, followed by a two-column section-heading pattern, a chronology with a `10rem` metadata column, and simple split rows for capabilities and personal context. The blog index follows the same shell: “Learn by doing, then write about it.” leads into a reverse-chronological writing ledger whose rows use rules and whitespace rather than cards.
 
 Articles retain the identity rail, then divide the reading area into a long-form column of up to `46rem` and a `11rem–12rem` nested H2/H3 table of contents. The table of contents remains sticky on wide screens. At `1180px` it moves inline above the article body, and its links expand to `44px` minimum height; at `900px` the identity rail becomes the shared compact header. The article body keeps a maximum `70ch` reading measure.
+
+Script documentation uses a centred frame of up to `68rem`, with the title and metadata ledger spanning the frame while authored documentation stays within a `70ch` reading measure. The ledger presents platform, risk, and category in three columns beside the raw-script action; at `760px` it becomes a one-column flow and the metadata settles into two columns, with category taking the full final row.
 
 At `900px`, the layout becomes one column, the profile rail turns into a compact identity header, and chronology metadata moves above each entry. At `620px`, the frame narrows to `100% - 2.25rem`, actions stack, content pairs collapse, and the three operating principles remain terse enough to stay side by side. Navigation, archive rows, and inline table-of-contents links preserve a `44px` compact-screen touch target.
 
@@ -237,11 +243,15 @@ Profile links form one ruled vertical ledger on wide screens. About me and Blog 
 
 ### Writing Archive
 
-The blog index is an unboxed reverse-chronological ledger. A ruled “Writing” heading shares the line with the RSS action; each article row pairs a direct title and outbound cue with `0.75rem` mono date and reading-time metadata. Published rows use Text and become Mauve on hover. Local-development draft rows remain Draft Yellow in both rest and hover states so publication status cannot be mistaken.
+The blog index is an unboxed reverse-chronological ledger. A ruled “Writing” heading shares the line with the RSS action; each article row pairs a direct title and outbound cue with `0.75rem` mono date and reading-time metadata. Published rows use Text and become Mauve on hover. Local-development draft rows remain Status Yellow in both rest and hover states so publication status cannot be mistaken.
 
 ### Article & Table of Contents
 
 The article header pairs a direct return link with a compact display title, mono dates/read time, and mono tags. The nested H2/H3 table of contents is a quiet navigation rail: uppercase mono heading, one-pixel divider, Subtext 0 links, and a fine indented rule for H3 items. It is sticky beside the reading column on wide screens and moves inline with `44px` link targets at `1180px` and below.
+
+### Script Documentation Ledger
+
+Script documentation opens with a compact mono breadcrumb, a wide title and description, then a metadata ledger bounded by Surface 1 rules. Platform, risk, and category use `0.75rem` mono labels and values; the unchanged raw artifact remains a direct Mauve text action beside them. A `system-changes` risk uses Status Yellow, while lower-risk values remain Text. The ledger collapses into the reading flow on compact screens rather than becoming a card or horizontal scroller.
 
 ### Markdown Prose
 
@@ -266,7 +276,7 @@ Three terse principles sit on a shared top rule. Each uses a Text-colored action
 - **Do** keep chronology, project, and capability content data-shaped and easy to extend.
 - **Do** preserve the blog as an unboxed, reverse-chronological writing ledger led by “Learn by doing, then write about it.”
 - **Do** keep long-form Markdown semantic and readable, including code, tables, figures, captions, nested H2/H3 navigation, and the established article-body values.
-- **Do** use Draft Yellow only to identify local-development draft titles; keep Mauve as the recurring public signal.
+- **Do** reserve Status Yellow for explicit exceptional states: local-development drafts and `system-changes` script risk; keep Mauve as the recurring public signal.
 
 ### Don't:
 

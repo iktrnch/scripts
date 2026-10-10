@@ -9,6 +9,7 @@ node_modules
 /build
 /static/script
 /static/templates
+/src/lib/generated
 
 # OS
 .DS_Store

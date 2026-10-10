@@ -11,6 +11,33 @@ Static downloads for scripts and reusable templates, built with SvelteKit and de
 
 Cloudflare Pages should publish the `build/` directory. SvelteKit prerenders the complete site with `adapter-static`; there are no runtime Workers, SSR endpoints, or Pages Functions. `static/_headers` supplies download content types on Pages, and the Vite development/preview servers apply the same types locally.
 
+## Script metadata and documentation
+
+Every published script must begin with YAML-style frontmatter followed by Markdown documentation. Put it in the first Python module docstring or in the leading `#` comment block of a shell script:
+
+```python
+"""
+---
+name: Documentation Index Generator
+description: Generates a flat Markdown documentation index.
+category: Documentation
+platforms: [linux, macos, windows]
+tags: [markdown, docs]
+risk: writes-files
+---
+
+# Documentation Index Generator
+
+## Usage
+
+uv run https://s.iktrnch.dev/script/gen_index.py ./docs
+"""
+```
+
+`name`, `description`, `category`, `platforms`, and `risk` are required. `tags` is optional, and `risk` must be `read-only`, `writes-files`, or `system-changes`. Builds fail with the source path when metadata is missing or invalid, or when `.py` and `.sh` files would produce the same extensionless slug.
+
+The asset pass also writes an ignored typed registry to `src/lib/generated/scripts.ts`. SvelteKit uses it to enumerate and prerender `/scripts/<slug>/`, while raw downloads remain at `/script/<relative-path>`. Markdown is rendered during the build and sanitized before it reaches the generated page.
+
 ## Development
 
 ```sh

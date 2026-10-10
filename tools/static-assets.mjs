@@ -12,6 +12,11 @@ import {
 } from 'node:fs/promises';
 import { dirname, extname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+	parseScriptMetadata,
+	validateUniqueSlugs,
+	writeScriptRegistry
+} from './script-metadata.mjs';
 
 const SCRIPT_EXTENSIONS = new Set(['.py', '.sh']);
 const FIXED_DOS_DATE = 0x21;
@@ -179,13 +184,29 @@ export async function buildStaticAssets({ root = process.cwd() } = {}) {
 	await mkdir(stagedTemplates, { recursive: true });
 
 	try {
-		for (const script of await walk(sourceScripts)) {
-			if (!SCRIPT_EXTENSIONS.has(extname(script.relativePath))) continue;
+		const scripts = (await walk(sourceScripts)).filter((script) =>
+			SCRIPT_EXTENSIONS.has(extname(script.relativePath))
+		);
+		const registry = [];
+		for (const script of scripts) {
+			let source;
+			try {
+				source = new TextDecoder('utf-8', { fatal: true }).decode(await readFile(script.path));
+			} catch (error) {
+				if (error instanceof TypeError) {
+					throw new Error(`${script.relativePath}: script metadata must be valid UTF-8`, {
+						cause: error
+					});
+				}
+				throw error;
+			}
+			registry.push(parseScriptMetadata({ source, relativePath: script.relativePath }));
 			const destination = join(stagedScripts, script.relativePath);
 			await mkdir(dirname(destination), { recursive: true });
 			await copyFile(script.path, destination);
 			await chmod(destination, script.mode & 0o777);
 		}
+		validateUniqueSlugs(registry);
 
 		for (const entry of await readDirectory(sourceTemplates)) {
 			if (!entry.isDirectory()) continue;
@@ -195,6 +216,7 @@ export async function buildStaticAssets({ root = process.cwd() } = {}) {
 
 		await replaceDirectory(stagedScripts, join(staticDirectory, 'script'));
 		await replaceDirectory(stagedTemplates, join(staticDirectory, 'templates'));
+		await writeScriptRegistry(registry, { root: repositoryRoot });
 	} finally {
 		await rm(staging, { recursive: true, force: true });
 	}

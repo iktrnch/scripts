@@ -19,11 +19,41 @@ async function fixture() {
 	await mkdir(join(root, 'scripts', 'linux', 'nested'), { recursive: true });
 	await mkdir(join(root, 'templates', 'service', 'config'), { recursive: true });
 	await mkdir(join(root, 'static'), { recursive: true });
-	const shell = Buffer.from('#!/bin/sh\nprintf "\\377\\000"\n');
-	const python = Buffer.from([
-		0x23, 0x21, 0x2f, 0x75, 0x73, 0x72, 0x2f, 0x62, 0x69, 0x6e, 0x2f, 0x65, 0x6e, 0x76, 0x20, 0x70,
-		0x79, 0x74, 0x68, 0x6f, 0x6e, 0x33, 0x0a, 0x00, 0xff
-	]);
+	const shell = Buffer.from(`#!/bin/sh
+# ---
+# name: Setup
+# description: Configures the fixture.
+# category: Tests
+# platforms: [linux]
+# risk: system-changes
+# ---
+#
+# # Setup
+#
+# ## Usage
+#
+# ./setup.sh
+printf 'fixture\\n'
+`);
+	const python = Buffer.from(`"""
+---
+name: Probe
+description: Reads fixture state.
+category: Tests
+platforms: [linux, macos]
+tags: [probe]
+risk: read-only
+---
+
+# Probe
+
+## Usage
+
+python probe.py
+"""
+
+print("fixture")
+`);
 	await writeFile(join(root, 'scripts', 'linux', 'setup.sh'), shell, { mode: 0o755 });
 	await writeFile(join(root, 'scripts', 'linux', 'nested', 'probe.py'), python);
 	await writeFile(join(root, 'scripts', 'linux', 'notes.txt'), 'not published');
@@ -74,6 +104,10 @@ test('publishes nested scripts byte-for-byte at static URLs', async () => {
 	const pythonResponse = await readStaticUrl(root, '/script/linux/nested/probe.py');
 	assert.equal(pythonResponse.contentType, 'text/x-python; charset=utf-8');
 	assert.deepEqual(pythonResponse.body, python);
+	const registry = await readFile(join(root, 'src/lib/generated/scripts.ts'), 'utf8');
+	assert.match(registry, /"slug": "linux\/nested\/probe"/);
+	assert.match(registry, /"downloadUrl": "\/script\/linux\/nested\/probe\.py"/);
+	assert.match(registry, /"documentationUrl": "\/scripts\/linux\/nested\/probe\/"/);
 });
 
 test('creates deterministic ZIPs with paths relative to each template', async () => {

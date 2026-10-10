@@ -14,6 +14,14 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
+			prerender: {
+				handleUnseenRoutes({ routes }) {
+					const unexpected = routes.filter((route) => route !== '/scripts/[...slug]');
+					if (unexpected.length) {
+						throw new Error(`Unexpected routes were not prerendered: ${unexpected.join(', ')}`);
+					}
+				}
+			},
 
 			adapter: adapter({ strict: true })
 		})
