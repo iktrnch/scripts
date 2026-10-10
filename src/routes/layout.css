@@ -1,5 +1,25 @@
 @import 'tailwindcss';
 
+@theme {
+	--font-sans: 'Onest', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, monospace;
+	--color-primary-mauve: #cba6f7;
+	--color-primary-mauve-soft: #b99bea;
+	--color-focus-pink: #f5c2e7;
+	--color-status-yellow: #f9e2af;
+	--color-crust: #11111b;
+	--color-mantle: #181825;
+	--color-base: #1e1e2e;
+	--color-surface-0: #313244;
+	--color-surface-1: #45475a;
+	--color-surface-2: #585b70;
+	--color-overlay-0: #6c7086;
+	--color-overlay-1: #9399b2;
+	--color-subtext-0: #a6adc8;
+	--color-subtext-1: #bac2de;
+	--color-text: #cdd6f4;
+}
+
 @font-face {
 	font-family: 'Onest';
 	font-style: normal;
@@ -20,53 +40,24 @@
 
 :root {
 	color-scheme: dark;
-	--primary-mauve: #cba6f7;
-	--primary-mauve-soft: #b99bea;
-	--focus-pink: #f5c2e7;
-	--status-yellow: #f9e2af;
-	--crust: #11111b;
-	--mantle: #181825;
-	--base: #1e1e2e;
-	--surface-0: #313244;
-	--surface-1: #45475a;
-	--surface-2: #585b70;
-	--overlay-0: #6c7086;
-	--overlay-1: #9399b2;
-	--subtext-0: #a6adc8;
-	--subtext-1: #bac2de;
-	--text: #cdd6f4;
-	font-family: Onest, ui-sans-serif, system-ui, sans-serif;
 	font-synthesis: none;
-	background: var(--base);
-	color: var(--text);
 }
 
 html {
 	scroll-behavior: smooth;
-	scrollbar-color: var(--surface-2) var(--mantle);
+	scrollbar-color: var(--color-surface-2) var(--color-mantle);
 }
 
 body {
-	margin: 0;
-	background: var(--base);
-	color: var(--text);
-	font-size: 1rem;
-	line-height: 1.65;
-}
-
-button,
-input {
-	font: inherit;
+	@apply bg-base font-sans leading-[1.65] text-base text-text;
 }
 
 ::selection {
-	background: var(--primary-mauve);
-	color: var(--crust);
+	@apply bg-primary-mauve text-crust;
 }
 
 :focus-visible {
-	outline: 2px solid var(--focus-pink);
-	outline-offset: 4px;
+	@apply outline-2 outline-offset-4 outline-focus-pink;
 }
 
 @media (prefers-reduced-motion: reduce) {

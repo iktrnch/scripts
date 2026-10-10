@@ -217,7 +217,7 @@ Articles retain the identity rail, then divide the reading area into a long-form
 
 Script documentation uses a centred frame of up to `68rem`, with the title and metadata ledger spanning the frame while authored documentation stays within a `70ch` reading measure. The ledger presents platform, risk, and category in three columns beside the raw-script action; at `760px` it becomes a one-column flow and the metadata settles into two columns, with category taking the full final row.
 
-The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves directly into the searchable, grouped ledger. Catalogue entries use an `11rem` metadata column, a flexible summary, direct documentation/source links, and an indented command row; at `800px` all of these become one direct column and command actions stack below their code. Search is absent when the registry is empty because it cannot perform a useful action.
+The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves directly into search and the script list. Catalogue entries use a two-row grid: title and description opposite metadata, then the joined command/copy control opposite stacked documentation and source links. At `900px` the grid becomes one direct column. Search is absent when the registry is empty because it cannot perform a useful action.
 
 At `900px`, the layout becomes one column, the profile rail turns into a compact identity header, and chronology metadata moves above each entry. At `620px`, the frame narrows to `100% - 2.25rem`, actions stack, content pairs collapse, and the three operating principles remain terse enough to stay side by side. Navigation, archive rows, and inline table-of-contents links preserve a `44px` compact-screen touch target.
 
@@ -278,7 +278,7 @@ Script documentation opens with a compact mono breadcrumb, a wide title and desc
 
 ### Command Copy Row
 
-A runnable command is presented as inspectable evidence, not a decorative terminal. The row uses a Crust code field, a one-pixel Surface 1 border, the standard `0.25rem` content radius, and readable `0.75rem` mono text. The trailing Mauve action owns a fixed `13rem` width on wide screens so “Copy command”, success, and failure feedback resolve inline without shifting the ledger; hover moves to Focus Pink. Long commands scroll horizontally inside the code field. At `800px` the action stacks below the command with a `3rem` minimum height, and reduced-motion mode removes its pressed translation.
+A runnable command is presented as inspectable evidence, not a decorative terminal. The Crust code field uses a one-pixel Surface 1 border, the standard `0.25rem` content radius, and readable `0.75rem` mono text. A fixed `13rem` Mauve copy button joins its trailing edge so success and failure feedback cannot shift the layout. Documentation and source remain quiet underlined links stacked in the adjacent rail. Long commands scroll horizontally inside the code field. At `900px`, metadata, command, and links stack into one direct flow; at `600px`, the copy button moves below the command.
 
 ### Catalogue Search
 
@@ -286,7 +286,7 @@ Search is an unboxed ruled row, not a filled field. It pairs a quiet search mark
 
 ### Script Catalogue Ledger
 
-The catalogue groups the generated registry by purpose and keeps every entry in the same reading flow. Uppercase mono category labels and Mauve counts sit above ruled entries; each entry exposes language, category, platforms, risk, description, documentation, raw source, and the exact command. Empty-registry and no-match states remain spacious, unboxed rows with plain guidance; the no-match state includes a clear-search action rather than a replacement panel or illustration.
+The catalogue keeps every generated entry in one predictable, ruled reading flow without a redundant section title or visible category dividers. Each entry exposes language, platforms, risk, description, documentation, raw source, and the exact command. Empty-registry and no-match states remain spacious, unboxed rows with plain guidance; the no-match state includes a clear-search action rather than a replacement panel or illustration.
 
 ### Markdown Prose
 
@@ -313,7 +313,7 @@ Three terse principles sit on a shared top rule. Each uses a Text-colored action
 - **Do** keep long-form Markdown semantic and readable, including code, tables, figures, captions, nested H2/H3 navigation, and the established article-body values.
 - **Do** reserve Status Yellow for explicit exceptional states: local-development drafts and `system-changes` script risk; keep Mauve as the recurring public signal.
 - **Do** present runnable commands with their risk, documentation, and raw source close by, and keep copy success or failure inline without changing the row's geometry.
-- **Do** keep catalogue search, result counts, and empty states in the ruled ledger flow instead of promoting them into panels.
+- **Do** keep catalogue search and empty states in the ruled ledger flow instead of promoting them into panels; announce result counts without adding another visible heading row.
 
 ### Don't:
 

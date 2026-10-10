@@ -17,313 +17,115 @@
 	<meta name="description" content={data.script.description} />
 </svelte:head>
 
-<main class="script-page">
-	<nav class="breadcrumb" aria-label="Breadcrumb">
-		<a href={resolve('/')}>s.iktrnch.dev</a>
+<main
+	class="mx-auto w-[calc(100%-3rem)] max-w-[68rem] pt-8 pb-24 max-[760px]:w-[calc(100%-2.25rem)] max-[760px]:pt-4"
+>
+	<nav
+		class="flex min-h-11 items-center gap-[0.55rem] overflow-x-auto font-mono text-xs leading-[1.4] whitespace-nowrap text-overlay-1"
+		aria-label="Breadcrumb"
+	>
+		<a
+			class="inline-flex min-h-11 items-center text-primary-mauve underline-offset-[0.22em] hover:text-focus-pink"
+			href={resolve('/')}
+		>
+			s.iktrnch.dev
+		</a>
 		<span aria-hidden="true">/</span>
 		<span>scripts</span>
 		<span aria-hidden="true">/</span>
 		<span>{data.script.slug}</span>
 	</nav>
 
-	<header class="script-header">
-		<h1>{data.script.name}</h1>
-		<p>{data.script.description}</p>
+	<header
+		class="max-w-[52rem] pt-[clamp(3rem,9vw,7.5rem)] pb-[clamp(2.5rem,6vw,4.5rem)] max-[760px]:pt-14"
+	>
+		<h1
+			class="m-0 max-w-[18ch] text-[clamp(2.8rem,5.2vw,4.75rem)] leading-[0.99] font-semibold tracking-[-0.038em] text-balance"
+		>
+			{data.script.name}
+		</h1>
+		<p class="mt-6 mb-0 max-w-[62ch] leading-[1.65] text-base text-subtext-1">
+			{data.script.description}
+		</p>
 	</header>
 
-	<section class="script-ledger" aria-label="Script details">
-		<dl>
+	<section
+		class="grid grid-cols-[minmax(0,1fr)_auto] items-end gap-8 border-y border-surface-1 py-5 max-[760px]:grid-cols-1 max-[760px]:items-start"
+		aria-label="Script details"
+	>
+		<dl class="m-0 grid grid-cols-3 gap-6 max-[760px]:grid-cols-2">
 			<div>
-				<dt>Platform</dt>
-				<dd>{data.script.platforms.join(' · ')}</dd>
-			</div>
-			<div>
-				<dt>Risk</dt>
-				<dd class:risk-system={data.script.risk === 'system-changes'}>
-					{riskLabels[data.script.risk]}
+				<dt
+					class="mb-[0.35rem] font-mono text-xs leading-[1.4] tracking-[0.06em] text-overlay-1 uppercase"
+				>
+					Platform
+				</dt>
+				<dd class="m-0 font-mono text-xs leading-[1.4] text-text">
+					{data.script.platforms.join(' · ')}
 				</dd>
 			</div>
 			<div>
-				<dt>Category</dt>
-				<dd>{data.script.category}</dd>
+				<dt
+					class="mb-[0.35rem] font-mono text-xs leading-[1.4] tracking-[0.06em] text-overlay-1 uppercase"
+				>
+					Risk
+				</dt>
+				<dd
+					class="m-0 font-mono text-xs leading-[1.4] text-text"
+					class:text-status-yellow={data.script.risk === 'system-changes'}
+				>
+					{riskLabels[data.script.risk]}
+				</dd>
+			</div>
+			<div class="max-[760px]:col-span-full">
+				<dt
+					class="mb-[0.35rem] font-mono text-xs leading-[1.4] tracking-[0.06em] text-overlay-1 uppercase"
+				>
+					Category
+				</dt>
+				<dd class="m-0 font-mono text-xs leading-[1.4] text-text">{data.script.category}</dd>
 			</div>
 		</dl>
-		<a class="raw-link" href={asset(rawAssetPath)}>View raw {data.script.sourcePath}</a>
+		<a
+			class="inline-flex min-h-11 min-w-0 items-center py-[0.2rem] font-semibold [overflow-wrap:anywhere] text-primary-mauve underline-offset-[0.22em] hover:text-focus-pink"
+			href={asset(rawAssetPath)}
+		>
+			View raw {data.script.sourcePath}
+		</a>
 	</section>
 
 	{#if !data.script.usageExamples.length}
-		<section class="usage" aria-labelledby="usage-heading">
-			<h2 id="usage-heading">Usage</h2>
-			<p>No standalone usage example was provided. See the documentation below.</p>
+		<section class="max-w-[70ch] pt-[clamp(3rem,7vw,5rem)]" aria-labelledby="usage-heading">
+			<h2
+				class="mt-0 mb-4 border-t border-surface-1 pt-6 text-[clamp(1.75rem,3vw,2.6rem)] leading-[1.1] tracking-[-0.028em]"
+				id="usage-heading"
+			>
+				Usage
+			</h2>
+			<p class="text-[1.02rem] leading-[1.72] text-subtext-1">
+				No standalone usage example was provided. See the documentation below.
+			</p>
 		</section>
 	{/if}
 
-	<article class="documentation">
+	<article
+		class="max-w-[70ch] pt-12
+		[&_a]:text-primary-mauve [&_a]:underline-offset-[0.22em] [&_a:hover]:text-focus-pink
+		[&_blockquote]:my-8 [&_blockquote]:border-l [&_blockquote]:border-primary-mauve-soft [&_blockquote]:pl-5
+		[&_code:not(pre_code)]:rounded-[0.2rem] [&_code:not(pre_code)]:bg-surface-0 [&_code:not(pre_code)]:px-[0.34em] [&_code:not(pre_code)]:py-[0.12em] [&_code:not(pre_code)]:font-mono [&_code:not(pre_code)]:text-[0.9em] [&_code:not(pre_code)]:text-focus-pink
+		[&_h1]:mt-0 [&_h1]:mb-6 [&_h1]:text-[clamp(1.75rem,3vw,2.6rem)] [&_h1]:leading-[1.08] [&_h1]:tracking-[-0.03em]
+		[&_h2]:mt-16 [&_h2]:mb-4 [&_h2]:border-t [&_h2]:border-surface-1 [&_h2]:pt-6 [&_h2]:text-[clamp(1.75rem,3vw,2.6rem)] [&_h2]:leading-[1.1] [&_h2]:tracking-[-0.028em]
+		[&_h3]:mt-11 [&_h3]:mb-[0.8rem] [&_h3]:text-[1.35rem] [&_h3]:tracking-[-0.022em]
+		[&_li]:text-[1.02rem] [&_li]:leading-[1.72] [&_li]:text-subtext-1 [&_li::marker]:text-primary-mauve
+		[&_ol]:pl-[1.4rem]
+		[&_p]:text-[1.02rem] [&_p]:leading-[1.72] [&_p]:text-subtext-1
+		[&_pre]:my-5 [&_pre]:overflow-x-auto [&_pre]:rounded-sm [&_pre]:border [&_pre]:border-surface-1 [&_pre]:bg-mantle [&_pre]:px-[1.1rem] [&_pre]:py-4 [&_pre]:font-mono [&_pre]:leading-[1.65] [&_pre]:text-base [&_pre]:text-text
+		[&_table]:block [&_table]:w-max [&_table]:max-w-full [&_table]:border-collapse [&_table]:overflow-x-auto
+		[&_td]:border-b [&_td]:border-surface-1 [&_td]:py-3 [&_td]:pr-5 [&_td]:text-left
+		[&_th]:border-b [&_th]:border-surface-1 [&_th]:py-3 [&_th]:pr-5 [&_th]:text-left [&_th]:font-mono [&_th]:text-xs [&_th]:font-medium
+		[&_ul]:pl-[1.4rem]"
+	>
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		{@html data.script.documentationHtml}
 	</article>
 </main>
-
-<style>
-	:global(:root) {
-		color-scheme: dark;
-	}
-
-	:global(body) {
-		margin: 0;
-		background: #1e1e2e;
-		color: #cdd6f4;
-		font-family: Onest, ui-sans-serif, system-ui, sans-serif;
-	}
-
-	:global(::selection) {
-		background: #cba6f7;
-		color: #11111b;
-	}
-
-	:global(:focus-visible) {
-		outline: 2px solid #f5c2e7;
-		outline-offset: 4px;
-	}
-
-	.script-page {
-		width: min(100% - 3rem, 68rem);
-		margin: 0 auto;
-		padding: 2rem 0 6rem;
-	}
-
-	.breadcrumb {
-		display: flex;
-		min-height: 2.75rem;
-		align-items: center;
-		gap: 0.55rem;
-		overflow-x: auto;
-		color: #9399b2;
-		font-family: 'JetBrains Mono', ui-monospace, monospace;
-		font-size: 0.75rem;
-		white-space: nowrap;
-	}
-
-	.breadcrumb a {
-		display: inline-flex;
-		min-height: 2.75rem;
-		align-items: center;
-	}
-
-	a {
-		color: #cba6f7;
-		text-underline-offset: 0.22em;
-	}
-
-	a:hover {
-		color: #f5c2e7;
-	}
-
-	.script-header {
-		max-width: 52rem;
-		padding: clamp(3rem, 9vw, 7.5rem) 0 clamp(2.5rem, 6vw, 4.5rem);
-	}
-
-	.script-header h1 {
-		max-width: 18ch;
-		margin: 0;
-		font-size: clamp(2.8rem, 5.2vw, 4.75rem);
-		font-weight: 600;
-		letter-spacing: -0.038em;
-		line-height: 0.99;
-		text-wrap: balance;
-	}
-
-	.script-header p {
-		max-width: 62ch;
-		margin: 1.5rem 0 0;
-		color: #bac2de;
-		font-size: 1rem;
-		line-height: 1.65;
-	}
-
-	.script-ledger {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		gap: 2rem;
-		align-items: end;
-		border-block: 1px solid #45475a;
-		padding: 1.25rem 0;
-	}
-
-	.script-ledger dl {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.5rem;
-		margin: 0;
-	}
-
-	.script-ledger dt,
-	.script-ledger dd {
-		font-family: 'JetBrains Mono', ui-monospace, monospace;
-		font-size: 0.75rem;
-		line-height: 1.4;
-	}
-
-	.script-ledger dt {
-		margin-bottom: 0.35rem;
-		color: #9399b2;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-	}
-
-	.script-ledger dd {
-		margin: 0;
-		color: #cdd6f4;
-	}
-
-	.script-ledger .risk-system {
-		color: #f9e2af;
-	}
-
-	.raw-link {
-		display: inline-flex;
-		min-width: 0;
-		min-height: 2.75rem;
-		align-items: center;
-		padding: 0.2rem 0;
-		font-weight: 600;
-		overflow-wrap: anywhere;
-	}
-
-	.usage,
-	.documentation {
-		max-width: 70ch;
-	}
-
-	.usage {
-		padding-top: clamp(3rem, 7vw, 5rem);
-	}
-
-	.usage h2,
-	.documentation :global(h2) {
-		margin: 0 0 1rem;
-		border-top: 1px solid #45475a;
-		padding-top: 1.5rem;
-		font-size: clamp(1.75rem, 3vw, 2.6rem);
-		letter-spacing: -0.028em;
-		line-height: 1.1;
-	}
-
-	.usage p,
-	.documentation :global(p),
-	.documentation :global(li) {
-		color: #bac2de;
-		font-size: 1.02rem;
-		line-height: 1.72;
-	}
-
-	.documentation :global(pre) {
-		overflow-x: auto;
-		margin: 1.25rem 0;
-		border: 1px solid #45475a;
-		border-radius: 0.25rem;
-		background: #181825;
-		padding: 1rem 1.1rem;
-		color: #cdd6f4;
-		font-family: 'JetBrains Mono', ui-monospace, monospace;
-		font-size: 1rem;
-		line-height: 1.65;
-	}
-
-	.documentation {
-		padding-top: 3rem;
-	}
-
-	.documentation :global(h1) {
-		margin: 0 0 1.5rem;
-		font-size: clamp(1.75rem, 3vw, 2.6rem);
-		letter-spacing: -0.03em;
-		line-height: 1.08;
-	}
-
-	.documentation :global(h2) {
-		margin-top: 4rem;
-	}
-
-	.documentation :global(h3) {
-		margin: 2.75rem 0 0.8rem;
-		font-size: 1.35rem;
-		letter-spacing: -0.022em;
-	}
-
-	.documentation :global(ul),
-	.documentation :global(ol) {
-		padding-left: 1.4rem;
-	}
-
-	.documentation :global(li::marker) {
-		color: #cba6f7;
-	}
-
-	.documentation :global(code:not(pre code)) {
-		border-radius: 0.2rem;
-		background: #313244;
-		padding: 0.12em 0.34em;
-		color: #f5c2e7;
-		font-family: 'JetBrains Mono', ui-monospace, monospace;
-		font-size: 0.9em;
-	}
-
-	.documentation :global(blockquote) {
-		margin: 2rem 0;
-		border-left: 1px solid #b99bea;
-		padding-left: 1.25rem;
-	}
-
-	.documentation :global(table) {
-		display: block;
-		width: max-content;
-		max-width: 100%;
-		overflow-x: auto;
-		border-collapse: collapse;
-	}
-
-	.documentation :global(th),
-	.documentation :global(td) {
-		border-bottom: 1px solid #45475a;
-		padding: 0.75rem 1.25rem 0.75rem 0;
-		text-align: left;
-	}
-
-	.documentation :global(th) {
-		font-family: 'JetBrains Mono', ui-monospace, monospace;
-		font-size: 0.75rem;
-		font-weight: 500;
-	}
-
-	@media (max-width: 760px) {
-		.script-page {
-			width: min(100% - 2.25rem, 68rem);
-			padding-top: 1rem;
-		}
-
-		.script-header {
-			padding-top: 3.5rem;
-		}
-
-		.script-ledger {
-			grid-template-columns: 1fr;
-			align-items: start;
-		}
-
-		.script-ledger dl {
-			grid-template-columns: 1fr 1fr;
-		}
-
-		.script-ledger dl > :last-child {
-			grid-column: 1 / -1;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		:global(*) {
-			scroll-behavior: auto !important;
-		}
-	}
-</style>
