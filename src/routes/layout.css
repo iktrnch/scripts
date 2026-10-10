@@ -1,1 +1,84 @@
 @import 'tailwindcss';
+
+@font-face {
+	font-family: 'Onest';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url('@fontsource-variable/onest/files/onest-latin-wght-normal.woff2')
+		format('woff2-variations');
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 800;
+	src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2')
+		format('woff2-variations');
+}
+
+:root {
+	color-scheme: dark;
+	--primary-mauve: #cba6f7;
+	--primary-mauve-soft: #b99bea;
+	--focus-pink: #f5c2e7;
+	--status-yellow: #f9e2af;
+	--crust: #11111b;
+	--mantle: #181825;
+	--base: #1e1e2e;
+	--surface-0: #313244;
+	--surface-1: #45475a;
+	--surface-2: #585b70;
+	--overlay-0: #6c7086;
+	--overlay-1: #9399b2;
+	--subtext-0: #a6adc8;
+	--subtext-1: #bac2de;
+	--text: #cdd6f4;
+	font-family: Onest, ui-sans-serif, system-ui, sans-serif;
+	font-synthesis: none;
+	background: var(--base);
+	color: var(--text);
+}
+
+html {
+	scroll-behavior: smooth;
+	scrollbar-color: var(--surface-2) var(--mantle);
+}
+
+body {
+	margin: 0;
+	background: var(--base);
+	color: var(--text);
+	font-size: 1rem;
+	line-height: 1.65;
+}
+
+button,
+input {
+	font: inherit;
+}
+
+::selection {
+	background: var(--primary-mauve);
+	color: var(--crust);
+}
+
+:focus-visible {
+	outline: 2px solid var(--focus-pink);
+	outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}

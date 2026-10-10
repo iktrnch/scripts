@@ -1,6 +1,6 @@
 ---
 name: Illia Katerynych Portfolio
-description: A restrained quality ledger for inspectable engineering work and writing.
+description: A restrained quality ledger for inspectable engineering work, writing, and public scripts.
 colors:
   primary-mauve: "#cba6f7"
   primary-mauve-soft: "#b99bea"
@@ -103,6 +103,27 @@ components:
     backgroundColor: "transparent"
     textColor: "{colors.status-yellow}"
     typography: "{typography.metadata}"
+  command-copy:
+    backgroundColor: "{colors.crust}"
+    textColor: "{colors.text}"
+    typography: "{typography.metadata}"
+    rounded: "{rounded.portrait}"
+    padding: "1rem 1.15rem"
+  command-copy-action:
+    backgroundColor: "{colors.primary-mauve}"
+    textColor: "{colors.crust}"
+    typography: "{typography.body}"
+    width: "13rem"
+  catalogue-search:
+    backgroundColor: "transparent"
+    textColor: "{colors.text}"
+    typography: "{typography.body}"
+    height: "2.75rem"
+  catalogue-entry:
+    backgroundColor: "transparent"
+    textColor: "{colors.text}"
+    typography: "{typography.title}"
+    padding: "1.5rem 0 1.75rem"
   article-inline-code:
     backgroundColor: "{colors.surface-0}"
     textColor: "{colors.focus-pink}"
@@ -116,7 +137,7 @@ components:
 
 **Creative North Star: "The Quality Ledger"**
 
-The Quality Ledger turns broad experience, inspectable work, and technical writing into one durable engineering standard. It is a quiet, technically exact record: deep Catppuccin Mocha fields, unboxed chronology and writing archives, compact sans-serif type, mono metadata, and Mauve signals that lead the eye without turning the page into a spectacle.
+The Quality Ledger turns broad experience, inspectable work, technical writing, and public scripts into one durable engineering standard. It is a quiet, technically exact record: deep Catppuccin Mocha fields, unboxed chronology and writing archives, compact sans-serif type, mono metadata and commands, and Mauve signals that lead the eye without turning the page into a spectacle.
 
 The system should feel personal but never performative. Information earns hierarchy through scale, spacing, alignment, and fine rules rather than developer-dashboard tiles, generic portfolio cards, glass panels, or a CV facsimile. Inspectable work and writing are the evidence; the interface keeps the portfolio easy to scan and gives articles a calm, semantic reading flow.
 
@@ -124,7 +145,7 @@ The system should feel personal but never performative. Information earns hierar
 
 - Catppuccin Mocha depth with Mauve used as a precise signal.
 - Oversized compact statements paired with restrained mono metadata.
-- Unboxed chronology, writing archives, and long-form content separated by fine rules.
+- Unboxed chronology, writing archives, script catalogues, and long-form content separated by fine rules.
 - A centred, asymmetric frame that becomes a direct single-column flow on smaller screens.
 - Minimal motion, visible focus, and complete reduced-motion behavior.
 
@@ -169,7 +190,7 @@ The palette is a low-chroma blue-violet field with a single lucid Mauve voice an
 
 **Label/Mono Font:** JetBrains Mono (with `ui-monospace` and `monospace` fallbacks)
 
-**Character:** Self-hosted Onest gives statements compact authority without editorial ornament. JetBrains Mono makes dates, locations, technologies, and small labels read as ledger entries rather than terminal output.
+**Character:** Self-hosted variable Onest gives statements compact authority without editorial ornament. Self-hosted variable JetBrains Mono makes dates, locations, technologies, commands, and small labels read as ledger entries rather than terminal cosplay. Deliver both as local WOFF2 assets with `font-display: swap`; system stacks remain the fallback.
 
 ### Hierarchy
 
@@ -195,6 +216,8 @@ Sections are unboxed with deliberately varied rhythm. The home opening has the l
 Articles retain the identity rail, then divide the reading area into a long-form column of up to `46rem` and a `11rem–12rem` nested H2/H3 table of contents. The table of contents remains sticky on wide screens. At `1180px` it moves inline above the article body, and its links expand to `44px` minimum height; at `900px` the identity rail becomes the shared compact header. The article body keeps a maximum `70ch` reading measure.
 
 Script documentation uses a centred frame of up to `68rem`, with the title and metadata ledger spanning the frame while authored documentation stays within a `70ch` reading measure. The ledger presents platform, risk, and category in three columns beside the raw-script action; at `760px` it becomes a one-column flow and the metadata settles into two columns, with category taking the full final row.
+
+The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves into a featured command runway and a searchable, grouped ledger. Catalogue entries use an `11rem` metadata column, a flexible summary, direct documentation/source links, and an indented command row; at `800px` all of these become one direct column and command actions stack below their code.
 
 At `900px`, the layout becomes one column, the profile rail turns into a compact identity header, and chronology metadata moves above each entry. At `620px`, the frame narrows to `100% - 2.25rem`, actions stack, content pairs collapse, and the three operating principles remain terse enough to stay side by side. Navigation, archive rows, and inline table-of-contents links preserve a `44px` compact-screen touch target.
 
@@ -253,6 +276,18 @@ The article header pairs a direct return link with a compact display title, mono
 
 Script documentation opens with a compact mono breadcrumb, a wide title and description, then a metadata ledger bounded by Surface 1 rules. Platform, risk, and category use `0.75rem` mono labels and values; the unchanged raw artifact remains a direct Mauve text action beside them. A `system-changes` risk uses Status Yellow, while lower-risk values remain Text. The ledger collapses into the reading flow on compact screens rather than becoming a card or horizontal scroller.
 
+### Command Copy Runway
+
+A runnable command is presented as inspectable evidence, not a decorative terminal. The row uses a Crust code field, a one-pixel Surface 1 border, the standard `0.25rem` content radius, and readable `0.75rem` mono text. The trailing Mauve action owns a fixed `13rem` width on wide screens so “Copy command”, success, and failure feedback resolve inline without shifting the ledger; hover moves to Focus Pink. Long commands scroll horizontally inside the code field. At `800px` the action stacks below the command with a `3rem` minimum height, and reduced-motion mode removes its pressed translation.
+
+### Catalogue Search
+
+Search is an unboxed ruled row, not a filled field. It pairs a quiet search mark with a full-width transparent input and either the `/` shortcut hint or a direct underlined clear action. Keyboard `/` focuses the field when the visitor is not typing elsewhere; Escape clears an active query. Result count and copy feedback use polite live regions, while the global Focus Pink outline remains visible.
+
+### Script Catalogue Ledger
+
+The catalogue groups the generated registry by purpose and keeps every entry in the same reading flow. Uppercase mono category labels and Mauve counts sit above ruled entries; each entry exposes language, category, platforms, risk, description, documentation, raw source, and the exact command. Empty-registry and no-match states remain spacious, unboxed rows with plain guidance; the no-match state includes a clear-search action rather than a replacement panel or illustration.
+
 ### Markdown Prose
 
 The custom Markdown renderer produces semantic prose rather than a generic rich-text skin. H2 sections begin after generous space and a one-pixel rule; H3 headings remain subordinate. Links and list markers use Mauve, blockquotes use a Soft Mauve left rule, and heading anchors appear on hover or keyboard focus. Inline code uses a Surface 0 field, Focus Pink text, and the `0.2rem` radius. Fenced code uses the Catppuccin Mocha syntax theme in a bordered, horizontally scrollable `0.25rem` container; tables scroll horizontally when needed and use ruled rows with mono headers. Images fill the reading width, keep the `0.25rem` corner, and may carry centred `0.75rem` mono captions.
@@ -277,6 +312,8 @@ Three terse principles sit on a shared top rule. Each uses a Text-colored action
 - **Do** preserve the blog as an unboxed, reverse-chronological writing ledger led by “Learn by doing, then write about it.”
 - **Do** keep long-form Markdown semantic and readable, including code, tables, figures, captions, nested H2/H3 navigation, and the established article-body values.
 - **Do** reserve Status Yellow for explicit exceptional states: local-development drafts and `system-changes` script risk; keep Mauve as the recurring public signal.
+- **Do** present runnable commands with their risk, documentation, and raw source close by, and keep copy success or failure inline without changing the row's geometry.
+- **Do** keep catalogue search, result counts, and empty states in the ruled ledger flow instead of promoting them into panels.
 
 ### Don't:
 
