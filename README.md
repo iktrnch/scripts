@@ -1,19 +1,48 @@
+<!-- prettier-ignore -->
+<div align="center">
+
+<img src="./src/lib/assets/favicon.svg" alt="s.iktrnch.dev logo" width="80" height="80" />
+
 # s.iktrnch.dev
 
-Static downloads for scripts and reusable templates, built with SvelteKit and deployed to Cloudflare Pages.
+A transparent catalogue of small, copy-ready scripts and reusable templates.
 
-## Asset pipeline
+[Browse the catalogue](https://s.iktrnch.dev) · [Add a script](#add-a-script) · [Development](#development)
 
-- Every `.py` and `.sh` file below `scripts/` is copied byte-for-byte to `/<relative-path>`.
-- Every immediate directory below `templates/` becomes a deterministic `/templates/<name>.zip`; archive entries are relative to that directory and retain nested paths.
-- `bun run dev` and `bun run build` regenerate these files first. Production builds also clear the ignored `build/` output so removed downloads cannot survive a rebuild. During development, changes below either source directory trigger another clean generation and browser reload.
-- Generated scripts are written to their ignored root-relative paths in `static/`; a generated manifest removes only stale managed scripts. Template archives remain in `static/templates/`.
+</div>
 
-Cloudflare Pages should publish the `build/` directory. SvelteKit prerenders the complete site with `adapter-static`; there are no runtime Workers, SSR endpoints, or Pages Functions. `static/_headers` supplies download content types on Pages, and the Vite development/preview servers apply the same types locally.
+Each catalogue entry shows what a script does, which platforms it supports, its risk level, the command needed to run it, and the exact source behind that command. The site is built with SvelteKit, generated entirely at build time, and deployed as static assets on Cloudflare.
 
-## Script metadata and documentation
+> [!CAUTION]
+> Remote scripts execute code in your environment. Inspect the linked source and understand its risk level before running a command.
 
-Every published script must begin with YAML-style frontmatter followed by Markdown documentation. Put it in the first Python module docstring or in the leading `#` comment block of a shell script:
+## Available scripts
+
+### Documentation Index Generator
+
+Generates a flat, human-readable `INDEX.md` for a directory of Markdown documentation.
+
+```sh
+uv run https://s.iktrnch.dev/gen_index.py ./docs
+```
+
+Use `--dry-run` to print the generated Markdown without writing a file, or `--output FILE` to choose another destination.
+
+## How it works
+
+The repository uses `scripts/` and `templates/` as its source directories:
+
+- Python and shell files below `scripts/` are published byte-for-byte at their repository-relative URLs.
+- Script frontmatter is validated and compiled into a typed catalogue registry.
+- Each immediate directory below `templates/` becomes a deterministic `/templates/<name>.zip` archive.
+- Development rebuilds assets when either source directory changes.
+- Production builds clear the generated output first, so removed downloads do not survive a rebuild.
+
+The SvelteKit application is fully prerendered with `adapter-static`. There are no runtime handlers, server-side fetches, or Pages Functions. Cloudflare and the local Vite server return explicit content types for Python, shell, and ZIP downloads.
+
+## Add a script
+
+Add a `.py` or `.sh` file anywhere below `scripts/`. Every script must start with YAML frontmatter followed by Markdown documentation:
 
 ```python
 """
@@ -34,78 +63,76 @@ uv run https://s.iktrnch.dev/gen_index.py ./docs
 """
 ```
 
-`name`, `description`, `category`, `platforms`, and `risk` are required. `tags` is optional, and `risk` must be `read-only`, `writes-files`, or `system-changes`. Builds fail with the source path when metadata is missing or invalid, or when `.py` and `.sh` files would produce the same extensionless slug.
+For shell scripts, place the same content in the leading `#` comment block after the optional shebang.
 
-The asset pass also writes an ignored typed registry to `src/lib/generated/scripts.ts`. Raw scripts are served directly from `/<relative-path>`; there is no per-script documentation route.
+| Field         | Required | Description                                      |
+| ------------- | :------: | ------------------------------------------------ |
+| `name`        |   Yes    | Human-readable script name                       |
+| `description` |   Yes    | Short summary shown in the catalogue             |
+| `category`    |   Yes    | Catalogue grouping                               |
+| `platforms`   |   Yes    | Non-empty list of supported platforms            |
+| `risk`        |   Yes    | `read-only`, `writes-files`, or `system-changes` |
+| `tags`        |    No    | Additional search terms                          |
+
+> [!NOTE]
+> A Python file and shell file cannot share the same extensionless path. For example, `scripts/setup.py` and `scripts/setup.sh` would both produce the `setup` slug, so the build rejects them.
+
+The asset step generates `src/lib/generated/scripts.ts`; do not edit that file directly. Published scripts are served from `/<relative-path>` with no intermediate `/scripts/` route.
+
+## Add a template
+
+Create a directory directly below `templates/` and place the reusable files inside it:
+
+```text
+templates/
+└── service/
+    ├── README.md
+    └── config/
+        └── app.ini
+```
+
+The next asset pass publishes it as `/templates/service.zip`, retaining its nested paths. Generated archives are ignored by Git and should not be committed.
 
 ## Development
+
+Install [Bun](https://bun.sh), then install dependencies and start the local server:
 
 ```sh
 bun install
 bun run dev
 ```
 
-Run the tests, Svelte diagnostics, and a production build with:
+Useful commands:
+
+| Command           | Purpose                                                                 |
+| ----------------- | ----------------------------------------------------------------------- |
+| `bun run assets`  | Regenerate published scripts, template archives, and the typed registry |
+| `bun run test`    | Run the asset, metadata, and catalogue tests                            |
+| `bun run check`   | Run Svelte and TypeScript diagnostics                                   |
+| `bun run lint`    | Check formatting and ESLint rules                                       |
+| `bun run format`  | Format the repository                                                   |
+| `bun run build`   | Create a clean production build in `build/`                             |
+| `bun run preview` | Preview the production build locally                                    |
+
+## Project structure
+
+```text
+scripts/                 Published Python and shell sources
+templates/               Source directories for generated ZIP archives
+src/lib/generated/       Generated script registry
+src/routes/              Prerendered catalogue interface
+static/                  Static files and generated download assets
+tools/                   Asset pipeline, metadata parser, and tests
+wrangler.jsonc           Cloudflare Workers Static Assets configuration
+```
+
+## Deployment
+
+Build and deploy the static output with Wrangler:
 
 ```sh
-bun run test
-bun run check
 bun run build
+bunx wrangler deploy
 ```
 
-The sections below are the original `sv` project notes.
-
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-bun x sv@1.1.1 create --template minimal --types ts --add prettier eslint tailwindcss="plugins:none" --install bun .
-```
-
-## Adding features
-
-Add features to your project with `sv add`:
-
-```sh
-npx sv add
-```
-
-For example, to add Tailwind CSS:
-
-```sh
-npx sv add tailwindcss
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+`wrangler.jsonc` publishes `build/` through Workers Static Assets at the `s.iktrnch.dev` custom domain without a Worker entrypoint.
