@@ -4,10 +4,10 @@ Static downloads for scripts and reusable templates, built with SvelteKit and de
 
 ## Asset pipeline
 
-- Every `.py` and `.sh` file below `scripts/` is copied byte-for-byte to `/script/<relative-path>`.
+- Every `.py` and `.sh` file below `scripts/` is copied byte-for-byte to `/<relative-path>`.
 - Every immediate directory below `templates/` becomes a deterministic `/templates/<name>.zip`; archive entries are relative to that directory and retain nested paths.
 - `bun run dev` and `bun run build` regenerate these files first. Production builds also clear the ignored `build/` output so removed downloads cannot survive a rebuild. During development, changes below either source directory trigger another clean generation and browser reload.
-- Generated files are written to ignored `static/script/` and `static/templates/` directories. Each generation replaces only those two managed directories, so stale downloads disappear without affecting other static files.
+- Generated scripts are written to their ignored root-relative paths in `static/`; a generated manifest removes only stale managed scripts. Template archives remain in `static/templates/`.
 
 Cloudflare Pages should publish the `build/` directory. SvelteKit prerenders the complete site with `adapter-static`; there are no runtime Workers, SSR endpoints, or Pages Functions. `static/_headers` supplies download content types on Pages, and the Vite development/preview servers apply the same types locally.
 
@@ -30,13 +30,13 @@ risk: writes-files
 
 ## Usage
 
-uv run https://s.iktrnch.dev/script/gen_index.py ./docs
+uv run https://s.iktrnch.dev/gen_index.py ./docs
 """
 ```
 
 `name`, `description`, `category`, `platforms`, and `risk` are required. `tags` is optional, and `risk` must be `read-only`, `writes-files`, or `system-changes`. Builds fail with the source path when metadata is missing or invalid, or when `.py` and `.sh` files would produce the same extensionless slug.
 
-The asset pass also writes an ignored typed registry to `src/lib/generated/scripts.ts`. SvelteKit uses it to enumerate and prerender `/scripts/<slug>/`, while raw downloads remain at `/script/<relative-path>`. Markdown is rendered during the build and sanitized before it reaches the generated page.
+The asset pass also writes an ignored typed registry to `src/lib/generated/scripts.ts`. Raw scripts are served directly from `/<relative-path>`; there is no per-script documentation route.
 
 ## Development
 

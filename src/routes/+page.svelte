@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { asset, resolve } from '$app/paths';
+	import { asset } from '$app/paths';
 	import { filterScripts, groupScripts, scriptCommand } from '#lib/catalogue.js';
 	import { scripts } from '#lib/generated/scripts.js';
 	import type { ScriptRecord } from '#lib/scripts.js';
@@ -17,10 +17,6 @@
 		'writes-files': 'writes files',
 		'system-changes': 'system changes'
 	} as const;
-
-	function documentationHref(script: ScriptRecord) {
-		return `${resolve('/scripts/[...slug]', { slug: script.slug }).replace(/\/$/, '')}/`;
-	}
 
 	async function copyCommand(script: ScriptRecord) {
 		try {
@@ -201,19 +197,21 @@
 							</span>
 						</div>
 
-						<div class="grid grid-cols-1 min-[601px]:grid-cols-[minmax(0,1fr)_13rem]">
+						<div
+							class="grid grid-cols-1 min-[601px]:grid-cols-[minmax(0,1fr)_13rem_9rem] min-[901px]:col-span-2"
+						>
 							<div
 								class="overflow-hidden rounded-t-sm border border-surface-1 bg-crust min-[601px]:rounded-l-sm min-[601px]:rounded-r-none"
 							>
 								<code
-									class="flex min-w-0 items-center gap-3 overflow-x-auto px-[1.15rem] py-4 font-mono text-xs leading-[1.4] whitespace-nowrap text-text max-[600px]:p-[0.9rem]"
+									class="flex min-w-0 items-center gap-3 overflow-x-auto px-4 py-[0.8rem] font-mono text-xs leading-[1.4] whitespace-nowrap text-text"
 								>
 									<span class="text-primary-mauve" aria-hidden="true">$</span>
 									{scriptCommand(script)}
 								</code>
 							</div>
 							<button
-								class="min-h-12 cursor-pointer rounded-b-sm border border-t-0 border-primary-mauve bg-primary-mauve font-semibold text-crust hover:border-focus-pink hover:bg-focus-pink min-[601px]:rounded-l-none min-[601px]:rounded-r-sm min-[601px]:border-t min-[601px]:border-l-0"
+								class="min-h-11 cursor-pointer border border-y-0 border-primary-mauve bg-primary-mauve px-3 font-semibold text-crust hover:border-focus-pink hover:bg-focus-pink min-[601px]:border-y min-[601px]:border-l-0"
 								type="button"
 								onclick={() => copyCommand(script)}
 							>
@@ -221,26 +219,14 @@
 									{copyStates[script.slug]?.message ?? 'Copy command'}
 								</span>
 							</button>
-						</div>
-						<!-- eslint-disable svelte/no-navigation-without-resolve -->
-						<nav
-							class="flex flex-col items-start justify-center whitespace-nowrap text-base"
-							aria-label={`${script.name} links`}
-						>
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 							<a
-								class="inline-flex min-h-11 items-center text-subtext-1 underline-offset-4 hover:text-primary-mauve"
-								href={documentationHref(script)}
-							>
-								Documentation
-							</a>
-							<a
-								class="inline-flex min-h-11 items-center text-subtext-1 underline-offset-4 hover:text-primary-mauve"
+								class="inline-flex min-h-11 items-center justify-center rounded-b-sm border border-surface-1 bg-transparent px-3 font-semibold text-subtext-1 no-underline hover:border-primary-mauve hover:text-primary-mauve min-[601px]:rounded-l-none min-[601px]:rounded-r-sm min-[601px]:border-l-0"
 								href={asset(script.downloadUrl.slice(1) as Parameters<typeof asset>[0])}
 							>
-								Raw source
+								View raw
 							</a>
-						</nav>
-						<!-- eslint-enable svelte/no-navigation-without-resolve -->
+						</div>
 					</article>
 				{/each}
 			{/if}

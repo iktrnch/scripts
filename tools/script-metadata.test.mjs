@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { scriptPrerenderEntries } from '../src/lib/scripts.ts';
 import {
 	extractUsageExamples,
 	parseScriptMetadata,
@@ -31,7 +30,7 @@ Generate INDEX.md from a directory.
 
 ## Usage
 
-uv run https://s.iktrnch.dev/script/docs/gen_index.py ./docs
+uv run https://s.iktrnch.dev/docs/gen_index.py ./docs
 """
 `
 	});
@@ -39,12 +38,8 @@ uv run https://s.iktrnch.dev/script/docs/gen_index.py ./docs
 	assert.equal(record.language, 'python');
 	assert.deepEqual(record.platforms, ['linux', 'macos', 'windows']);
 	assert.deepEqual(record.tags, ['markdown', 'docs']);
-	assert.deepEqual(record.usageExamples, [
-		'uv run https://s.iktrnch.dev/script/docs/gen_index.py ./docs'
-	]);
-	assert.equal(record.downloadUrl, '/script/docs/gen_index.py');
-	assert.equal(record.documentationUrl, '/scripts/docs/gen_index/');
-	assert.doesNotMatch(record.documentationHtml, /<h1>Documentation Index Generator<\/h1>/);
+	assert.deepEqual(record.usageExamples, ['uv run https://s.iktrnch.dev/docs/gen_index.py ./docs']);
+	assert.equal(record.downloadUrl, '/docs/gen_index.py');
 });
 
 test('parses shell comment metadata and fenced usage examples', () => {
@@ -130,7 +125,7 @@ echo safe
 	assert.doesNotMatch(html, /<script|javascript:/);
 });
 
-test('generates a typed registry with nested prerender URLs and documentation', () => {
+test('generates a typed registry without documentation payloads', () => {
 	const record = parseScriptMetadata({
 		relativePath: 'nested/tool.py',
 		source: `"""\n${frontmatter}\n\n## Usage\n\npython tool.py\n"""`
@@ -138,8 +133,6 @@ test('generates a typed registry with nested prerender URLs and documentation', 
 	const generated = registrySource([record]);
 	assert.match(generated, /import type \{ ScriptRecord \}/);
 	assert.match(generated, /export const scripts: readonly ScriptRecord\[\]/);
-	assert.match(generated, /"documentationUrl": "\/scripts\/nested\/tool\/"/);
-	assert.match(generated, /"documentationHtml": "<h2>Usage<\/h2>/);
-	assert.deepEqual(extractUsageExamples(record.documentation), ['python tool.py']);
-	assert.deepEqual(scriptPrerenderEntries([record]), [{ slug: 'nested/tool' }]);
+	assert.doesNotMatch(generated, /documentationHtml|documentationUrl/);
+	assert.deepEqual(extractUsageExamples('## Usage\n\npython tool.py'), ['python tool.py']);
 });

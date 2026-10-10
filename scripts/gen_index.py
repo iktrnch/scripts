@@ -15,7 +15,7 @@ Generate INDEX.md from a directory.
 
 ## Usage
 
-uv run https://s.iktrnch.dev/script/gen_index.py ./docs
+uv run https://s.iktrnch.dev/gen_index.py ./docs
 """
 
 from __future__ import annotations

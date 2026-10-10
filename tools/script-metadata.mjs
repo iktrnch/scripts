@@ -171,18 +171,6 @@ export function renderMarkdown(markdown) {
 	});
 }
 
-/** @param {string} documentation @param {string} name */
-function withoutRepeatedTitle(documentation, name) {
-	const lines = documentation.split('\n');
-	const firstContent = lines.findIndex((line) => line.trim());
-	if (firstContent === -1) return documentation;
-	const heading = lines[firstContent].match(/^#\s+(.+?)\s*#*\s*$/);
-	if (heading?.[1].trim() !== name) return documentation;
-	lines.splice(firstContent, 1);
-	while (lines[firstContent]?.trim() === '') lines.splice(firstContent, 1);
-	return lines.join('\n');
-}
-
 /** @param {string} documentation */
 export function extractUsageExamples(documentation) {
 	const lines = documentation.replace(/\r\n?/g, '\n').split('\n');
@@ -236,10 +224,7 @@ export function parseScriptMetadata({ source, relativePath }) {
 		language: extension === '.py' ? 'python' : 'shell',
 		...metadata,
 		usageExamples: extractUsageExamples(documentation),
-		documentation,
-		documentationHtml: renderMarkdown(withoutRepeatedTitle(documentation, metadata.name)),
-		downloadUrl: `/script/${encodePath(relativePath)}`,
-		documentationUrl: `/scripts/${encodePath(slug)}/`
+		downloadUrl: `/${encodePath(relativePath)}`
 	};
 }
 

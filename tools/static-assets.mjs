@@ -19,6 +19,7 @@ import {
 } from './script-metadata.mjs';
 
 const SCRIPT_EXTENSIONS = new Set(['.py', '.sh']);
+const SCRIPT_MANIFEST = '.generated-scripts.json';
 const FIXED_DOS_DATE = 0x21;
 const UTF8_FLAG = 0x0800;
 const ZIP_VERSION = 20;
@@ -170,6 +171,22 @@ async function replaceDirectory(staged, target) {
 	await rename(staged, target);
 }
 
+/** @param {string} repositoryRoot */
+async function readScriptManifest(repositoryRoot) {
+	try {
+		const value = JSON.parse(
+			await readFile(join(repositoryRoot, 'src/lib/generated', SCRIPT_MANIFEST), 'utf8')
+		);
+		if (!Array.isArray(value) || !value.every((entry) => typeof entry === 'string')) {
+			throw new Error(`${SCRIPT_MANIFEST}: expected an array of script paths`);
+		}
+		return value;
+	} catch (error) {
+		if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') return [];
+		throw error;
+	}
+}
+
 /** @param {{ root?: string }} [options] */
 export async function buildStaticAssets({ root = process.cwd() } = {}) {
 	const repositoryRoot = resolve(root);
@@ -177,7 +194,7 @@ export async function buildStaticAssets({ root = process.cwd() } = {}) {
 	const sourceTemplates = join(repositoryRoot, 'templates');
 	const staticDirectory = join(repositoryRoot, 'static');
 	const staging = join(staticDirectory, `.assets-${process.pid}-${randomBytes(6).toString('hex')}`);
-	const stagedScripts = join(staging, 'script');
+	const stagedScripts = join(staging, 'scripts');
 	const stagedTemplates = join(staging, 'templates');
 
 	await mkdir(stagedScripts, { recursive: true });
@@ -207,6 +224,29 @@ export async function buildStaticAssets({ root = process.cwd() } = {}) {
 			await chmod(destination, script.mode & 0o777);
 		}
 		validateUniqueSlugs(registry);
+		const previousScripts = await readScriptManifest(repositoryRoot);
+		const previousSet = new Set(previousScripts);
+		const nextScripts = scripts.map((script) => script.relativePath);
+		for (const script of scripts) {
+			const { relativePath } = script;
+			if (previousSet.has(relativePath)) continue;
+			try {
+				const target = join(staticDirectory, relativePath);
+				const targetMetadata = await lstat(target);
+				const matchesSource =
+					targetMetadata.isFile() && (await readFile(target)).equals(await readFile(script.path));
+				if (!matchesSource) {
+					throw new Error(
+						`${relativePath}: generated script would overwrite an unmanaged static asset`
+					);
+				}
+				previousSet.add(relativePath);
+			} catch (error) {
+				if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT')
+					continue;
+				throw error;
+			}
+		}
 
 		for (const entry of await readDirectory(sourceTemplates)) {
 			if (!entry.isDirectory()) continue;
@@ -214,8 +254,22 @@ export async function buildStaticAssets({ root = process.cwd() } = {}) {
 			await writeFile(join(stagedTemplates, `${entry.name}.zip`), await createZip(source));
 		}
 
-		await replaceDirectory(stagedScripts, join(staticDirectory, 'script'));
 		await replaceDirectory(stagedTemplates, join(staticDirectory, 'templates'));
+		for (const relativePath of previousScripts) {
+			if (!nextScripts.includes(relativePath))
+				await rm(join(staticDirectory, relativePath), { force: true });
+		}
+		for (const relativePath of nextScripts) {
+			const target = join(staticDirectory, relativePath);
+			await mkdir(dirname(target), { recursive: true });
+			if (previousSet.has(relativePath)) await rm(target, { force: true });
+			await rename(join(stagedScripts, relativePath), target);
+		}
+		const manifest = join(repositoryRoot, 'src/lib/generated', SCRIPT_MANIFEST);
+		await mkdir(dirname(manifest), { recursive: true });
+		await writeFile(manifest, `${JSON.stringify(nextScripts, null, '\t')}\n`);
+		await rm(join(staticDirectory, SCRIPT_MANIFEST), { force: true });
+		await rm(join(staticDirectory, 'script'), { recursive: true, force: true });
 		await writeScriptRegistry(registry, { root: repositoryRoot });
 	} finally {
 		await rm(staging, { recursive: true, force: true });
@@ -224,8 +278,8 @@ export async function buildStaticAssets({ root = process.cwd() } = {}) {
 
 /** @param {string} pathname */
 export function contentTypeForPath(pathname) {
-	if (/^\/script\/.+\.py$/.test(pathname)) return 'text/x-python; charset=utf-8';
-	if (/^\/script\/.+\.sh$/.test(pathname)) return 'application/x-sh; charset=utf-8';
+	if (/^\/.+\.py$/.test(pathname)) return 'text/x-python; charset=utf-8';
+	if (/^\/.+\.sh$/.test(pathname)) return 'application/x-sh; charset=utf-8';
 	if (/^\/templates\/[^/]+\.zip$/.test(pathname)) return 'application/zip';
 }
 

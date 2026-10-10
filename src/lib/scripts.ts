@@ -14,12 +14,5 @@ export interface ScriptRecord {
 	tags: string[];
 	risk: ScriptRisk;
 	usageExamples: string[];
-	documentation: string;
-	documentationHtml: string;
 	downloadUrl: string;
-	documentationUrl: string;
-}
-
-export function scriptPrerenderEntries(records: readonly Pick<ScriptRecord, 'slug'>[]) {
-	return records.map(({ slug }) => ({ slug }));
 }

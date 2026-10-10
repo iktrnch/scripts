@@ -14,10 +14,7 @@ const scripts = [
 		tags: ['setup'],
 		risk: 'system-changes',
 		usageExamples: [],
-		documentation: '',
-		documentationHtml: '',
-		downloadUrl: '/script/linux/setup.sh',
-		documentationUrl: '/scripts/linux/setup/'
+		downloadUrl: '/linux/setup.sh'
 	},
 	{
 		slug: 'docs/index',
@@ -30,19 +27,13 @@ const scripts = [
 		tags: ['markdown'],
 		risk: 'writes-files',
 		usageExamples: [],
-		documentation: '',
-		documentationHtml: '',
-		downloadUrl: '/script/docs/index.py',
-		documentationUrl: '/scripts/docs/index/'
+		downloadUrl: '/docs/index.py'
 	}
 ];
 
 test('creates language-appropriate public execution commands', () => {
-	assert.equal(scriptCommand(scripts[1]), 'uv run https://s.iktrnch.dev/script/docs/index.py');
-	assert.equal(
-		scriptCommand(scripts[0]),
-		'curl -fsSL https://s.iktrnch.dev/script/linux/setup.sh | sh'
-	);
+	assert.equal(scriptCommand(scripts[1]), 'uv run https://s.iktrnch.dev/docs/index.py');
+	assert.equal(scriptCommand(scripts[0]), 'curl -fsSL https://s.iktrnch.dev/linux/setup.sh | sh');
 });
 
 test('groups categories and scripts predictably', () => {

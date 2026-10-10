@@ -2,133 +2,133 @@
 name: Illia Katerynych Portfolio
 description: A restrained quality ledger for inspectable engineering work, writing, and public scripts.
 colors:
-  primary-mauve: "#cba6f7"
-  primary-mauve-soft: "#b99bea"
-  focus-pink: "#f5c2e7"
-  status-yellow: "#f9e2af"
-  crust: "#11111b"
-  mantle: "#181825"
-  base: "#1e1e2e"
-  surface-0: "#313244"
-  surface-1: "#45475a"
-  surface-2: "#585b70"
-  overlay-0: "#6c7086"
-  overlay-1: "#9399b2"
-  subtext-0: "#a6adc8"
-  subtext-1: "#bac2de"
-  text: "#cdd6f4"
+  primary-mauve: '#cba6f7'
+  primary-mauve-soft: '#b99bea'
+  focus-pink: '#f5c2e7'
+  status-yellow: '#f9e2af'
+  crust: '#11111b'
+  mantle: '#181825'
+  base: '#1e1e2e'
+  surface-0: '#313244'
+  surface-1: '#45475a'
+  surface-2: '#585b70'
+  overlay-0: '#6c7086'
+  overlay-1: '#9399b2'
+  subtext-0: '#a6adc8'
+  subtext-1: '#bac2de'
+  text: '#cdd6f4'
 typography:
   display:
-    fontFamily: "Onest, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(2.8rem, 5.2vw, 4.75rem)"
+    fontFamily: 'Onest, ui-sans-serif, system-ui, sans-serif'
+    fontSize: 'clamp(2.8rem, 5.2vw, 4.75rem)'
     fontWeight: 600
     lineHeight: 0.99
-    letterSpacing: "-0.038em"
+    letterSpacing: '-0.038em'
   headline:
-    fontFamily: "Onest, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1.75rem, 3vw, 2.6rem)"
+    fontFamily: 'Onest, ui-sans-serif, system-ui, sans-serif'
+    fontSize: 'clamp(1.75rem, 3vw, 2.6rem)'
     fontWeight: 600
     lineHeight: 1.1
-    letterSpacing: "-0.028em"
+    letterSpacing: '-0.028em'
   title:
-    fontFamily: "Onest, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "clamp(1.35rem, 2.3vw, 1.85rem)"
+    fontFamily: 'Onest, ui-sans-serif, system-ui, sans-serif'
+    fontSize: 'clamp(1.35rem, 2.3vw, 1.85rem)'
     fontWeight: 600
     lineHeight: 1.15
-    letterSpacing: "-0.022em"
+    letterSpacing: '-0.022em'
   body:
-    fontFamily: "Onest, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1rem"
+    fontFamily: 'Onest, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '1rem'
     fontWeight: 400
     lineHeight: 1.65
-    letterSpacing: "normal"
+    letterSpacing: 'normal'
   metadata:
-    fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: "0.75rem"
+    fontFamily: 'JetBrains Mono, ui-monospace, monospace'
+    fontSize: '0.75rem'
     fontWeight: 400
     lineHeight: 1.4
-    letterSpacing: "normal"
+    letterSpacing: 'normal'
   article-body:
-    fontFamily: "Onest, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1.02rem"
+    fontFamily: 'Onest, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '1.02rem'
     fontWeight: 400
     lineHeight: 1.72
-    letterSpacing: "normal"
+    letterSpacing: 'normal'
   article-body-compact:
-    fontFamily: "Onest, ui-sans-serif, system-ui, sans-serif"
-    fontSize: "1rem"
+    fontFamily: 'Onest, ui-sans-serif, system-ui, sans-serif'
+    fontSize: '1rem'
     fontWeight: 400
     lineHeight: 1.68
-    letterSpacing: "normal"
+    letterSpacing: 'normal'
 rounded:
-  inline-code: "0.2rem"
-  portrait: "0.25rem"
-  action: "0.28rem"
-  full: "999px"
+  inline-code: '0.2rem'
+  portrait: '0.25rem'
+  action: '0.28rem'
+  full: '999px'
 spacing:
-  xs: "0.25rem"
-  sm: "0.5rem"
-  md: "1rem"
-  lg: "1.5rem"
-  xl: "2rem"
+  xs: '0.25rem'
+  sm: '0.5rem'
+  md: '1rem'
+  lg: '1.5rem'
+  xl: '2rem'
 components:
   primary-action:
-    backgroundColor: "{colors.primary-mauve}"
-    textColor: "{colors.crust}"
-    typography: "{typography.body}"
-    rounded: "{rounded.action}"
-    padding: "0.78rem 1rem"
+    backgroundColor: '{colors.primary-mauve}'
+    textColor: '{colors.crust}'
+    typography: '{typography.body}'
+    rounded: '{rounded.action}'
+    padding: '0.78rem 1rem'
   primary-action-hover:
-    backgroundColor: "{colors.focus-pink}"
-    textColor: "{colors.crust}"
+    backgroundColor: '{colors.focus-pink}'
+    textColor: '{colors.crust}'
   secondary-action:
-    backgroundColor: "transparent"
-    textColor: "{colors.subtext-1}"
-    typography: "{typography.body}"
+    backgroundColor: 'transparent'
+    textColor: '{colors.subtext-1}'
+    typography: '{typography.body}'
   profile-link:
-    backgroundColor: "transparent"
-    textColor: "{colors.text}"
-    padding: "0.85rem 0"
-    height: "4.15rem"
+    backgroundColor: 'transparent'
+    textColor: '{colors.text}'
+    padding: '0.85rem 0'
+    height: '4.15rem'
   archive-entry:
-    backgroundColor: "transparent"
-    textColor: "{colors.text}"
-    typography: "{typography.title}"
-    padding: "1.5rem 0 1.4rem"
+    backgroundColor: 'transparent'
+    textColor: '{colors.text}'
+    typography: '{typography.title}'
+    padding: '1.5rem 0 1.4rem'
   archive-entry-draft:
-    backgroundColor: "transparent"
-    textColor: "{colors.status-yellow}"
-    typography: "{typography.title}"
+    backgroundColor: 'transparent'
+    textColor: '{colors.status-yellow}'
+    typography: '{typography.title}'
   script-risk-system:
-    backgroundColor: "transparent"
-    textColor: "{colors.status-yellow}"
-    typography: "{typography.metadata}"
+    backgroundColor: 'transparent'
+    textColor: '{colors.status-yellow}'
+    typography: '{typography.metadata}'
   command-copy:
-    backgroundColor: "{colors.crust}"
-    textColor: "{colors.text}"
-    typography: "{typography.metadata}"
-    rounded: "{rounded.portrait}"
-    padding: "1rem 1.15rem"
+    backgroundColor: '{colors.crust}'
+    textColor: '{colors.text}'
+    typography: '{typography.metadata}'
+    rounded: '{rounded.portrait}'
+    padding: '1rem 1.15rem'
   command-copy-action:
-    backgroundColor: "{colors.primary-mauve}"
-    textColor: "{colors.crust}"
-    typography: "{typography.body}"
-    width: "13rem"
+    backgroundColor: '{colors.primary-mauve}'
+    textColor: '{colors.crust}'
+    typography: '{typography.body}'
+    width: '13rem'
   catalogue-search:
-    backgroundColor: "transparent"
-    textColor: "{colors.text}"
-    typography: "{typography.body}"
-    height: "2.75rem"
+    backgroundColor: 'transparent'
+    textColor: '{colors.text}'
+    typography: '{typography.body}'
+    height: '2.75rem'
   catalogue-entry:
-    backgroundColor: "transparent"
-    textColor: "{colors.text}"
-    typography: "{typography.title}"
-    padding: "1.5rem 0 1.75rem"
+    backgroundColor: 'transparent'
+    textColor: '{colors.text}'
+    typography: '{typography.title}'
+    padding: '1.5rem 0 1.75rem'
   article-inline-code:
-    backgroundColor: "{colors.surface-0}"
-    textColor: "{colors.focus-pink}"
-    rounded: "{rounded.inline-code}"
-    padding: "0.12em 0.34em"
+    backgroundColor: '{colors.surface-0}'
+    textColor: '{colors.focus-pink}'
+    rounded: '{rounded.inline-code}'
+    padding: '0.12em 0.34em'
 ---
 
 # Design System: Illia Katerynych Portfolio
@@ -215,9 +215,7 @@ Sections are unboxed with deliberately varied rhythm. The home opening has the l
 
 Articles retain the identity rail, then divide the reading area into a long-form column of up to `46rem` and a `11rem–12rem` nested H2/H3 table of contents. The table of contents remains sticky on wide screens. At `1180px` it moves inline above the article body, and its links expand to `44px` minimum height; at `900px` the identity rail becomes the shared compact header. The article body keeps a maximum `70ch` reading measure.
 
-Script documentation uses a centred frame of up to `68rem`, with the title and metadata ledger spanning the frame while authored documentation stays within a `70ch` reading measure. The ledger presents platform, risk, and category in three columns beside the raw-script action; at `760px` it becomes a one-column flow and the metadata settles into two columns, with category taking the full final row.
-
-The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves directly into search and the script list. Catalogue entries use a two-row grid: title and description opposite metadata, then the joined command/copy control opposite stacked documentation and source links. At `900px` the grid becomes one direct column. Search is absent when the registry is empty because it cannot perform a useful action.
+The public script catalogue keeps the `80rem` outer frame and constrains its working content to `70rem`. Its opening pairs the display statement with purpose and security copy, then moves directly into search and the script list. Catalogue entries use a two-row grid: title and description opposite metadata, then a full-width joined command, copy, and raw-source control. At `900px` the grid becomes one direct column. Search is absent when the registry is empty because it cannot perform a useful action.
 
 At `900px`, the layout becomes one column, the profile rail turns into a compact identity header, and chronology metadata moves above each entry. At `620px`, the frame narrows to `100% - 2.25rem`, actions stack, content pairs collapse, and the three operating principles remain terse enough to stay side by side. Navigation, archive rows, and inline table-of-contents links preserve a `44px` compact-screen touch target.
 
@@ -272,13 +270,9 @@ The blog index is an unboxed reverse-chronological ledger. A ruled “Writing”
 
 The article header pairs a direct return link with a compact display title, mono dates/read time, and mono tags. The nested H2/H3 table of contents is a quiet navigation rail: uppercase mono heading, one-pixel divider, Subtext 0 links, and a fine indented rule for H3 items. It is sticky beside the reading column on wide screens and moves inline with `44px` link targets at `1180px` and below.
 
-### Script Documentation Ledger
-
-Script documentation opens with a compact mono breadcrumb, a wide title and description, then a metadata ledger bounded by Surface 1 rules. Platform, risk, and category use `0.75rem` mono labels and values; the unchanged raw artifact remains a direct Mauve text action beside them. A `system-changes` risk uses Status Yellow, while lower-risk values remain Text. The ledger collapses into the reading flow on compact screens rather than becoming a card or horizontal scroller.
-
 ### Command Copy Row
 
-A runnable command is presented as inspectable evidence, not a decorative terminal. The Crust code field uses a one-pixel Surface 1 border, the standard `0.25rem` content radius, and readable `0.75rem` mono text. A fixed `13rem` Mauve copy button joins its trailing edge so success and failure feedback cannot shift the layout. Documentation and source remain quiet underlined links stacked in the adjacent rail. Long commands scroll horizontally inside the code field. At `900px`, metadata, command, and links stack into one direct flow; at `600px`, the copy button moves below the command.
+A runnable command is presented as inspectable evidence, not a decorative terminal. The Crust code field uses a one-pixel Surface 1 border, the standard `0.25rem` content radius, and readable `0.75rem` mono text. A fixed `13rem` Mauve copy button and a connected outlined raw-source button join its trailing edge. Both actions use compact `44px` targets and reduced horizontal padding. Long commands scroll horizontally inside the code field; below `600px`, the connected controls stack vertically.
 
 ### Catalogue Search
 
@@ -286,7 +280,7 @@ Search is an unboxed ruled row, not a filled field. It pairs a quiet search mark
 
 ### Script Catalogue Ledger
 
-The catalogue keeps every generated entry in one predictable, ruled reading flow without a redundant section title or visible category dividers. Each entry exposes language, platforms, risk, description, documentation, raw source, and the exact command. Empty-registry and no-match states remain spacious, unboxed rows with plain guidance; the no-match state includes a clear-search action rather than a replacement panel or illustration.
+The catalogue keeps every generated entry in one predictable, ruled reading flow without a redundant section title or visible category dividers. Each entry exposes language, platforms, risk, description, raw source, and the exact command. Empty-registry and no-match states remain spacious, unboxed rows with plain guidance; the no-match state includes a clear-search action rather than a replacement panel or illustration.
 
 ### Markdown Prose
 
