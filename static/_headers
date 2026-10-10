@@ -1,0 +1,8 @@
+/script/*.py
+  Content-Type: text/x-python; charset=utf-8
+
+/script/*.sh
+  Content-Type: application/x-sh; charset=utf-8
+
+/templates/*.zip
+  Content-Type: application/zip
