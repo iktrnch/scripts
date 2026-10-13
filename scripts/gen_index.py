@@ -166,7 +166,7 @@ def _same_path(left: Path, right: Path) -> bool:
 
 
 def discover_documents(docs_directory: Path, output_path: Path) -> list[Document]:
-    """Discover Markdown files without descending into directory symlinks."""
+    """Discover Markdown files, skipping underscore-prefixed directories and symlinks."""
     documents: list[Document] = []
 
     def raise_walk_error(error: OSError) -> None:
@@ -177,12 +177,12 @@ def discover_documents(docs_directory: Path, output_path: Path) -> list[Document
             docs_directory, topdown=True, followlinks=False, onerror=raise_walk_error
         ):
             root_path = Path(root)
-            # Pruning every directory symlink prevents loops and out-of-tree traversal.
+            # Prune excluded directories before traversal, including all descendants.
             directory_names[:] = sorted(
                 (
                     name
                     for name in directory_names
-                    if not (root_path / name).is_symlink()
+                    if not name.startswith("_") and not (root_path / name).is_symlink()
                 ),
                 key=str.casefold,
             )
